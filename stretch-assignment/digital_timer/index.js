@@ -34,7 +34,7 @@
         2) set msTens textContent to the above
         3) Use Math.floor() on msHundreds so that the value after the decimal from the hundreds of the hundreds place is the value of the 10s place rounds it down.
         4) repeat process for  secondOnes and secondTens
-7) Need timer to restart when the start button is clicked
+7) Need timer to restart/reset when the start button is clicked by simply seting the timer variable to 0 in our click event listener
 
 */
 
@@ -47,6 +47,7 @@ const button = document.querySelector('button'),
 let timer = 0;
 
 button.addEventListener("click", event => {
+    timer = 0;
     event.preventDefault();
     const interval = setInterval(() => {
         timer += 10;
