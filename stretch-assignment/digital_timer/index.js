@@ -40,6 +40,7 @@
 8) Disable button while timer is running using a lock variable set to true when button is clicked and turns to false once the interval has reached 10s
 
 9) Set digits to red when timer gits to red using CSS toggle?
+    a) found a hack way to accomplish task but does not use css .redDigit.
 */
 
 const button = document.querySelector('button'),
@@ -54,13 +55,17 @@ let timer = 0;
 let lock = false;
 
 
+
 button.addEventListener('click', event => {
     if (!lock) {
         lock = true;
         timer = 0;
         //reset color to black when clicking on timer
-        // digits.style.color = 'black';
-        
+        // digits.style.color = 'black';//keeps digits from turning red when interval is reached
+        // digits.classList.toggle('redDigit'); // turn digits red when button is clicked then toggle to black
+        if (lock = true ) {
+            digits.style.color = 'black'
+        } 
         event.preventDefault();
         const interval = setInterval(() => {
             timer += 10;
@@ -69,11 +74,12 @@ button.addEventListener('click', event => {
             msHundreds.textContent = Math.floor(timer / 100) % 10;
             secondOnes.textContent = Math.floor(timer / 1000) % 10;
             secondTens.textContent = Math.floor(timer / 10000) % 10;
-            if (timer >= 3000) {
+            if (timer >= 10000) {
                 lock = false;
                 clearInterval(interval);
                 //set numbers to red using css
-                digits.classList.toggle('redDigit');
+                // digits.classList.toggle('redDigit');
+                digits.style.color = 'red'
             }
         }, 10);
     }
