@@ -63,9 +63,10 @@ button.addEventListener('click', event => {
         //reset color to black when clicking on timer
         // digits.style.color = 'black';//keeps digits from turning red when interval is reached
         // digits.classList.toggle('redDigit'); // turn digits red when button is clicked then toggle to black
-        if (lock = true ) {
-            digits.style.color = 'black'
-        } 
+        // if (lock = true ) {
+        //     digits.style.color = 'black'
+        // } 
+        digits.classList.remove('redDigit')// proper way to tdo it!
         event.preventDefault();
         const interval = setInterval(() => {
             timer += 10;
@@ -78,8 +79,9 @@ button.addEventListener('click', event => {
                 lock = false;
                 clearInterval(interval);
                 //set numbers to red using css
+                digits.classList.add('redDigit')//proper way to do it!
                 // digits.classList.toggle('redDigit');
-                digits.style.color = 'red'
+                // digits.style.color = 'red'
             }
         }, 10);
     }
