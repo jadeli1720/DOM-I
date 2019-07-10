@@ -37,24 +37,30 @@
 
 7) Need timer to restart/reset when the start button is clicked by simply setting the timer variable to 0 in our click event listener
 
-8) Disable button while timer is running
+8) Disable button while timer is running using a lock variable set to true when button is clicked and turns to false once the interval has reached 10s
 
+9) Set digits to red when timer gits to red using CSS toggle?
 */
 
-const button = document.querySelector("button"),
-    secondTens = document.querySelector("#secondTens"),
-    secondOnes = document.querySelector("#secondOnes"),
-    msHundreds = document.querySelector("#msHundreds"),
-    msTens = document.querySelector("#msTens");
+const button = document.querySelector('button'),
+      digits = document.querySelector('.digits'),
+      secondTens = document.querySelector('#secondTens'),
+      secondOnes = document.querySelector('#secondOnes'),
+      msHundreds = document.querySelector('#msHundreds'),
+      msTens = document.querySelector('#msTens');
+
 
 let timer = 0;
 let lock = false;
 
-button.addEventListener("click", event => {
+
+button.addEventListener('click', event => {
     if (!lock) {
         lock = true;
         timer = 0;
-        //reset color when clicking on timer
+        //reset color to black when clicking on timer
+        // digits.style.color = 'black';
+        
         event.preventDefault();
         const interval = setInterval(() => {
             timer += 10;
@@ -63,10 +69,11 @@ button.addEventListener("click", event => {
             msHundreds.textContent = Math.floor(timer / 100) % 10;
             secondOnes.textContent = Math.floor(timer / 1000) % 10;
             secondTens.textContent = Math.floor(timer / 10000) % 10;
-            if (timer >= 10000) {
+            if (timer >= 3000) {
                 lock = false;
                 clearInterval(interval);
                 //set numbers to red using css
+                digits.classList.toggle('redDigit');
             }
         }, 10);
     }
