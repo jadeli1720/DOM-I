@@ -1,0 +1,88 @@
+//console.log(document.querySelector('.digits')) // lets me know that I have js file targeted correctly in the html file and in the right place.
+
+//Use .setInterval() => runs callback after a certain (or for a fixed)amount of time, and then keeps running it after that certain amount of time.
+
+/*
+//Steps: 
+1.) Give .setInterval a callback that will do something every 10ms
+
+2.) Set timer value to 0
+
+3.) Increment the timer by 10ms
+
+4.) Tie the incrementing behavior to start button > add onclick event listener
+    a) grab the button and save to a variable called button
+        const button = document.querySelector('button');
+    b) add event listener looks like this:
+        button.addEventListener('click', event => {
+            event.preventDefault();
+        })
+    c) .setInterval() inside click event
+
+5.) Now we need to stop the timer using a feature of .setInterval()
+    a) Returns a value that we can later reference: a clear interval that we     can use to stop it from running 
+        const = interval
+    b) Use if statement to check the value of our timer
+    c) this is the implicit use of closures
+
+6) Now we must get the numbers to display in the HTML file properly by:
+    a) grabbing all the values
+    b) setting them to proper values > use math method
+        1) grab 10's place: 
+            * timer/ 10 : shifts the decimal over to the left by 1 i.e(12340 becomes 1234.0)
+            * then get the  % 10 (modulo: performs a division by 10 & gives the remainder...the value in the ones place)
+        2) set msTens textContent to the above
+        3) Use Math.floor() on msHundreds so that the value after the decimal from the hundreds of the hundreds place is the value of the 10s place rounds it down.
+        4) repeat process for  secondOnes and secondTens
+
+7) Need timer to restart/reset when the start button is clicked by simply setting the timer variable to 0 in our click event listener
+
+8) Disable button while timer is running using a lock variable set to true when button is clicked and turns to false once the interval has reached 10s
+
+9) Set digits to red when timer gits to red using CSS toggle?
+    a) found a hack way to accomplish task but does not use css .redDigit.
+*/
+
+const button = document.querySelector('button'),
+      digits = document.querySelector('.digits'),
+      secondTens = document.querySelector('#secondTens'),
+      secondOnes = document.querySelector('#secondOnes'),
+      msHundreds = document.querySelector('#msHundreds'),
+      msTens = document.querySelector('#msTens');
+
+
+let timer = 0;
+let lock = false;
+
+
+
+button.addEventListener('click', event => {
+    if (!lock) {
+        lock = true;
+        timer = 0;
+        //reset color to black when clicking on timer
+        // digits.style.color = 'black';//keeps digits from turning red when interval is reached
+        // digits.classList.toggle('redDigit'); // turn digits red when button is clicked then toggle to black
+        // if (lock = true ) {
+        //     digits.style.color = 'black'
+        // } 
+        digits.classList.remove('redDigit')// proper way to tdo it!
+        event.preventDefault();
+        const interval = setInterval(() => {
+            timer += 10;
+            // console.log(timer); //so we can see the timer incrementing this will keep running though in console.
+            msTens.textContent = (timer / 10) % 10;
+            msHundreds.textContent = Math.floor(timer / 100) % 10;
+            secondOnes.textContent = Math.floor(timer / 1000) % 10;
+            secondTens.textContent = Math.floor(timer / 10000) % 10;
+            if (timer >= 10000) {
+                lock = false;
+                clearInterval(interval);
+                //set numbers to red using css
+                digits.classList.add('redDigit')//proper way to do it!
+                // digits.classList.toggle('redDigit');
+                // digits.style.color = 'red'
+            }
+        }, 10);
+    }
+});
